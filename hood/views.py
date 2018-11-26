@@ -124,8 +124,10 @@ def maps(request):
 
 @login_required(login_url='/accounts/login/')
 def hoods(request,id):
+    current_user=request.user
     date = dt.date.today()
     post=Neighbourhood.objects.get(id=id)
+
     brushs = Post.objects.filter(neighbourhood=post)
     business = Business.objects.filter(neighbourhood=post)
     return render(request,'each_hood.html',{"post":post,"date":date,"brushs":brushs, "business":business})
@@ -149,24 +151,26 @@ def post_new(request,id):
     else:
         form = PostForm()
         return render(request,'new_post.html',{"form":form,"posts":posts,"hood":hood,  "date":date, 'comments':comments})
+
 def newcomment(request,id):
-  ida = request.user.id
-  profile = Profile.objects.get(user=ida)
-  idd = id
-  current_username = request.user.username
-  if request.method == 'POST':
-    form = NewCommentForm(request.POST)
-    if form.is_valid():
-      comment = form.save(commit=False)
-      comment.postername = current_username
-      comment.post = Post.objects.get(pk=id)
-      comment.save()
-    return redirect('hoods',id)
+    current_user = request.user
 
-  else:
-    form = NewCommentForm()
-
-  return render(request, 'newcomment.html',{'form':form,'profile':profile,'idd':idd})
+    try:
+        comments = Comment.objects.filter(post_id=id)
+    except:
+        comments = []
+    brush= Post.objects.get(id=id)
+    if request.method =="POST":
+        form = NewCommentForm(request.POST,request.FILES)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.postername = current_user
+            comment.post = brush
+            comment.save()
+    else:
+        form = NewCommentForm()
+        
+    return render(request, 'newcomment.html',{'brush':brush,"comments":comments,"form":form})
 
 
 def post_business(request,id):

@@ -97,5 +97,5 @@ class Category(models.Model):
 class Comment(models.Model):
   comment = models.TextField()
   post = models.ForeignKey(Post,on_delete=models.CASCADE)
-  postername = models.CharField(max_length=60)
+  postername= models.ForeignKey(User, on_delete=models.CASCADE)
   pub_date = models.DateTimeField(auto_now_add=True)

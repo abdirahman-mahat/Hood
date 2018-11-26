@@ -8,7 +8,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>New project</title>
+    <title>Newhood</title>
     {{form.media}}
 
     {% block styles %}
@@ -17,38 +17,48 @@
     {% endblock %}
 
   </head>
-
   {% block content %}
+    <div class="row">
+      <div class="col-md-6">
+        <div style="" class="card">
+          <div style="color:antiquewhite; background-color:rgb(10, 10, 10);" class="card-header">
+            <p>{{brush.post}}</p>
+          </div>
 
-    <body style="background-color: rgb(101, 124, 126);">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-2"></div>
-          <div class="col-md-8">
-            <div style="background-repeat: no-repeat; background-size: cover; background-image: url('https://mdbootstrap.com/img/Photos/Others/pricing-table%20(7).jpg');" class="card">
-              <div style="text-align: center; " class="card-header">
-                <h2>Add a comment</h2>
-              </div>
-              <div class="card-body">
-                <form action="{% url 'newcomment' idd %}" method="post" enctype="multipart/form-data">
-                  {%csrf_token%}
+        </div>
+      </div>
+      <br>
+      <br>
+    </div>
+    <div class="card-footer">
 
-                  {% bootstrap_form form%}
-                  <input type="submit" class="btn btn-warning btn-sm" value="Post">
-                </form>
-              </div>
+      {% if comments %}
+        {% for comment in comments %}
+          <div class="card text-white bg-secondary mb-3">
+            <div class="card-body firstletter">
+              {{comment.comment}}
+              <footer class="blockquote-footer" style="color:white;">
+                <cite title="Source Title">{{comment.postername}}</cite>
+              </footer>
             </div>
           </div>
-          <div class="col-md-2"></div>
-        </div>
+        {% endfor %}
+      {% else %}
+        <p>No comments have been made</p>
+      {% endif %}
+      <div style="text-align:center; background-color:rgb(10, 10, 10);" class="card-image"></div>
+      <div style="background-color:rgb(10, 10, 10);" class="card-footer">
+        <form action="/hoods/new/comment/{{brush.id}}" method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+
+          {% bootstrap_form form %}
+          <input type="submit" class="btn btn-primary" value="Post">
+        </form>
 
       </div>
 
-      {% block scripts %}
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-        {% bootstrap_javascript %}
-      {% endblock %}
-    </body>
-    {% endblock%}
+    </div>
 
-  </html>
+  </div>
+
+{% endblock %}
