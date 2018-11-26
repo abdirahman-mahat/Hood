@@ -67,19 +67,3 @@ class BusinessTestClass(TestCase):
 
   def test_instance(self):
       self.assertTrue(isinstance(self.biz, Business))
-
-  def test_save_method(self):
-      """
-      Function to test that a business is being saved
-      """
-      self.biz.save_business()
-      bizs = Business.objects.all()
-      self.assertTrue(len(bizs) > 0)
-
-  def test_delete_method(self):
-      """
-      Function to test that a business can be deleted
-      """
-      self.biz.save_business()
-      self.biz.delete_business()
-      self.assertTrue(len(bizs) == 0)
