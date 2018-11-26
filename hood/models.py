@@ -43,7 +43,10 @@ class Neighbourhood(models.Model):
     image = models.ImageField(upload_to='neighimage/', null=True)
     admin = models.ForeignKey(Profile, related_name='hoods', null=True)
     description = models.CharField(max_length = 300,default='My hood!!!')
-
+    def save_neighbourhood(self):
+        self.save()
+    def delete_neighbourhood(self):
+        self.delete()
 class Business(models.Model):
     name = models.CharField(max_length=30)
     category = models.CharField(max_length=30)
@@ -52,7 +55,10 @@ class Business(models.Model):
     description = models.CharField(max_length = 300)
     neighbourhood = models.ForeignKey(Neighbourhood, related_name='businesses')
     profile = models.ForeignKey(Profile, related_name='profiles')
-
+    def save_business(self):
+        self.save()
+    def delete_business(self):
+        self.delete()
     @classmethod
     def search_by_name(cls,search_term):
         business = cls.objects.filter(title__icontains=search_term)
