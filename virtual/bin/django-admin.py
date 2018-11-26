@@ -1,4 +1,4 @@
-#!/home/abdirahman/Desktop/HoodWatch-master/virtual/bin/python3.6
+#!/home/abdirahman/Desktop/hood/virtual/bin/python3.6
 from django.core import management
 
 if __name__ == "__main__":
