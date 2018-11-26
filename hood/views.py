@@ -149,8 +149,10 @@ def post_new(request,id):
     else:
         form = PostForm()
         return render(request,'new_post.html',{"form":form,"posts":posts,"hood":hood,  "date":date, 'comments':comments})
-
-
+def newcomment(request,id):
+  ida = request.user.id
+  profile = Profile.objects.get(user=ida)
+  idd = id
   current_username = request.user.username
   if request.method == 'POST':
     form = NewCommentForm(request.POST)
